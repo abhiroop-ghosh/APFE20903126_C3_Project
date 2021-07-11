@@ -9,19 +9,53 @@ class RestaurantServiceTest {
 
     RestaurantService service = new RestaurantService();
     Restaurant restaurant;
-    //REFACTOR ALL THE REPEATED LINES OF CODE
 
+    @BeforeEach
+    // This method executes before each test case and create a default restaurant
+    public void initialize_restaurant_prior_to_each_test()
+    {
+        LocalTime openingTime = LocalTime.parse("10:30:00");
+        LocalTime closingTime = LocalTime.parse("22:00:00");
+        restaurant = service.addRestaurant("Amelie's cafe","Chennai",openingTime,closingTime);
+        restaurant.addToMenu("Sweet corn soup",119);
+        restaurant.addToMenu("Vegetable lasagne", 269);
+    }
+
+    // This method returns the number of menu available in the restaurant
+    public int getNumberOfRestaurants()
+    {
+        return service.getRestaurants().size();
+    }
 
     //>>>>>>>>>>>>>>>>>>>>>>SEARCHING<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     @Test
     public void searching_for_existing_restaurant_should_return_expected_restaurant_object() throws restaurantNotFoundException {
-        //WRITE UNIT TEST CASE HERE
+        //Arrange
+        String restaurantName = "Amelie's cafe";
+
+        //Act
+        Restaurant searchedRestaurant = service.findRestaurantByName(restaurantName);
+
+        //Assert
+
+        //The searched restaurant should not be NULL
+        assertNotNull(searchedRestaurant);
+
+        //The name of the returned object should be same as that which is searched
+        assertEquals(restaurantName,searchedRestaurant.getName());
     }
 
     //You may watch the video by Muthukumaran on how to write exceptions in Course 3: Testing and Version control: Optional content
     @Test
     public void searching_for_non_existing_restaurant_should_throw_exception() throws restaurantNotFoundException {
-        //WRITE UNIT TEST CASE HERE
+        //Arrange
+        String restaurantName = "Pantry d'or";
+
+        //Act & assert
+        assertThrows(restaurantNotFoundException.class,()->{
+            service.findRestaurantByName(restaurantName);
+        });
+
     }
     //<<<<<<<<<<<<<<<<<<<<SEARCHING>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -37,9 +71,9 @@ class RestaurantServiceTest {
         restaurant.addToMenu("Sweet corn soup",119);
         restaurant.addToMenu("Vegetable lasagne", 269);
 
-        int initialNumberOfRestaurants = service.getRestaurants().size();
+        int initialNumberOfRestaurants = getNumberOfRestaurants();
         service.removeRestaurant("Amelie's cafe");
-        assertEquals(initialNumberOfRestaurants-1, service.getRestaurants().size());
+        assertEquals(initialNumberOfRestaurants-1, getNumberOfRestaurants());
     }
 
     @Test
@@ -61,9 +95,9 @@ class RestaurantServiceTest {
         restaurant.addToMenu("Sweet corn soup",119);
         restaurant.addToMenu("Vegetable lasagne", 269);
 
-        int initialNumberOfRestaurants = service.getRestaurants().size();
+        int initialNumberOfRestaurants = getNumberOfRestaurants();
         service.addRestaurant("Pumpkin Tales","Chennai",LocalTime.parse("12:00:00"),LocalTime.parse("23:00:00"));
-        assertEquals(initialNumberOfRestaurants + 1,service.getRestaurants().size());
+        assertEquals(initialNumberOfRestaurants + 1,getNumberOfRestaurants());
     }
     //<<<<<<<<<<<<<<<<<<<<ADMIN: ADDING & REMOVING RESTAURANTS>>>>>>>>>>>>>>>>>>>>>>>>>>
 }

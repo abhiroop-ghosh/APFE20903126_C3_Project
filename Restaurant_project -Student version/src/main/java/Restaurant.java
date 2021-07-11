@@ -18,15 +18,19 @@ public class Restaurant {
     }
 
     public boolean isRestaurantOpen() {
-        return true;
-        //DELETE ABOVE STATEMENT AND WRITE CODE HERE
+        //if the current time is in between the opening and closing time
+        //then the restaurant is open
+        if(getCurrentTime().isAfter(openingTime) && getCurrentTime().isBefore(closingTime))
+            return true;
+        else
+            return false;
     }
 
     public LocalTime getCurrentTime(){ return  LocalTime.now(); }
 
     public List<Item> getMenu() {
-        return null;
-        //DELETE ABOVE RETURN STATEMENT AND WRITE CODE HERE
+        // return the list of menu items
+        return  this.menu;
     }
 
     private Item findItemByName(String itemName){
