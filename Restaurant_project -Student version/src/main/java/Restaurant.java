@@ -1,3 +1,4 @@
+import javax.management.RuntimeOperationsException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -67,4 +68,14 @@ public class Restaurant {
         return name;
     }
 
+    public int getTotalAmount(List<String> items)  {
+        int amount = 0;
+        for (String item : items) {
+
+                Item restaurantItem = this.findItemByName(item);
+                int itemPrice = restaurantItem.getPrice();
+                amount += itemPrice;
+        }
+        return amount;
+    }
 }
