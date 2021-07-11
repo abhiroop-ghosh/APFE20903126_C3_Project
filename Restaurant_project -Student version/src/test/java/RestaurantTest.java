@@ -122,4 +122,60 @@ class RestaurantTest {
     }
     //<<<<<<<<<<<<<<<<<<<<<<<MENU>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+    //>>>>>>>>>>>>>>>>>>>>>>CALCULATING TOTAL PRICE<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    @Test
+    public void when_no_item_is_selected_the_total_amount_should_be_0()
+    {
+        //Arrange
+        List<String> items = getMenu(0);
+
+        //Act
+        int totalAmount = restaurant.getTotalAmount(items);
+
+        //Assert
+        assertEquals(0,totalAmount);
+    }
+
+    @Test
+    public void when_a_single_item_is_selected_the_total_amount_should_be_the_price_of_the_item()
+    {
+        //Arrange
+        List<String> items = getMenu(1);
+
+        //Act
+        int totalAmount = restaurant.getTotalAmount(items);
+
+        //Assert
+        assertEquals(119,totalAmount);
+    }
+
+    @Test
+    public void when_multiple_items_are_selected_the_total_amount_should_be_total_of_all_items()
+    {
+        //Arrange
+        List<String> items = getMenu(2);
+
+        //Act
+        int totalAmount = restaurant.getTotalAmount(items);
+
+        //Assert
+        assertEquals(388,totalAmount);
+    }
+
+    public List<String> getMenu(int numberOfItems) {
+        ArrayList<String> menuItems = new ArrayList<String>();
+        switch (numberOfItems) {
+            case 1:
+                menuItems.add("Sweet corn soup");
+                return menuItems;
+            case 2:
+                menuItems.add("Sweet corn soup");
+                menuItems.add("Vegetable lasagne");
+                return menuItems;
+            default:
+                return menuItems;
+        }
+    }
+    //<<<<<<<<<<<<<<<<<<<<CALCULATING TOTAL PRICE>>>>>>>>>>>>>>>>>>>>>>>>>>
 }
